@@ -178,7 +178,7 @@ int calc(string s, double &ans) {
     }
     ss = ss + s[s.length() - 1];
     s = ss;
-    int z = 10;
+
     if (error(s) == -1) return -1;
     for (int i = 0; i < s.length(); i++) {
         if (s[i] >= '0' && s[i] <= '9') {
@@ -189,6 +189,7 @@ int calc(string s, double &ans) {
             }
             if(s[i] == '.') {
                 i++;
+                int z = 10;
                 while (s[i] >= '0' && s[i] <= '9' && i < s.length()) {
                     temp = temp * z + (s[i] - '0');
                     temp = temp / z;

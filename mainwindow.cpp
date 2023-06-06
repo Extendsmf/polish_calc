@@ -48,17 +48,20 @@ void MainWindow:: buttonClicked(){
     if(ui->lineEdit_x2->text() != "") {
         xmax = ui->lineEdit_x2->text().toDouble();
     }
-    double ymin = -1,  ymax = 1;
-    if(ui->lineEdit_y1->text() != "") {
-        ymin = ui->lineEdit_y1->text().toDouble();
-    }
-    if(ui->lineEdit_y2->text() != "") {
-        ymax = ui->lineEdit_y2->text().toDouble();
-    }
+
     int xgmin = 0; int xgmax = pm.width();
     int ygmin = 0; int ygmax = pm.height();
     double x, y;
+    x = xmin;
     int xg, yg;
+
+    double ymin = -1,  ymax = 1;
+    if(ui->lineEdit_y1->text() != "") {
+           ymin = ui->lineEdit_y1->text().toDouble();
+       }
+       if(ui->lineEdit_y2->text() != "") {
+           ymax = ui->lineEdit_y2->text().toDouble();
+       }
     double kx = (xgmax-xgmin)/(xmax-xmin);
     double ky = (ygmin-ygmax)/(ymax-ymin);
     double x0 = xgmin - kx*xmin;
@@ -66,7 +69,7 @@ void MainWindow:: buttonClicked(){
     double stepx = (xmax-xmin)/(xgmax-xgmin);
     painter.drawLine(0,y0,pm.width(),y0);
     painter.drawLine(x0,0,x0,pm.height());
-    x = xmin;
+
     pen.setColor(Qt::yellow);
     QPainterPath path;
     QString fx = ui->lineEdit_fx->text();
@@ -78,6 +81,7 @@ void MainWindow:: buttonClicked(){
     std::string tempfStd = tempf.toUtf8().constData();
     calc(tempfStd, ans);
     painter.setPen(pen);
+    x = xmin;
     path.moveTo(x, ans);
 
 
@@ -87,15 +91,17 @@ void MainWindow:: buttonClicked(){
         QString s1 =QString::number(x);
         tempf.replace("x",s1);
         std::string tempfStd = tempf.toUtf8().constData();
-        calc(tempfStd, ans);
-        y = ans;
-        if(y >= ymax || y <= ymin)  {
-            path.moveTo(xg, yg);
+        if( calc(tempfStd, ans) != -1) {
+            y = ans; if(y >= ymax || y <= ymin)  {
+                path.moveTo(xg, yg);
+            }
+            xg = x0 + kx*x;
+            yg = y0 + ky*y;
+            path.lineTo(xg, yg);
         }
 
-        xg = x0 + kx*x;
-        yg = y0 + ky*y;
-        path.lineTo(xg, yg); 
+
+
         x += stepx;
     }
     painter.drawPath(path);
