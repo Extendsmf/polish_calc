@@ -60,7 +60,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Область опр.</string>
+     <string>обл. определения</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_x1">
@@ -113,7 +113,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Область знач.</string>
+     <string>обл. значения</string>
     </property>
    </widget>
   </widget>
